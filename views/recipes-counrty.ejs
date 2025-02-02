@@ -1,0 +1,30 @@
+<%if(recipes.length>0){%>
+<nav class="breadcrumb" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/" class="crumb text-dark">home</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      <%=recipes[0].categoryName%> Recipes
+    </li>
+  </ol>
+</nav>
+
+<h1 class="py-5 text-center"><%=recipes[0].categoryName%> Recipes</h1>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 text-center p-3 m-3">
+  <% recipes.forEach(recipe => { %>
+  <a href="/recipes/<%=recipe._id%>%>" class="category-link">
+    <div class="recipe-img shadow">
+      <img
+        src="../uploads/<%= recipe.image %>"
+        alt="<%= recipe.image %>"
+        loading="lazy"
+      />
+      <div class="pt-1"><%= recipe.name %></div>
+    </div>
+  </a>
+  <% }) %>
+</div>
+<% }else{%>
+<h1>not found</h1>
+<%} %>

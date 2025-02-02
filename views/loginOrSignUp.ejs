@@ -1,0 +1,50 @@
+<form class="row fw-bold px-4" method="post" action="/sign-up">
+  <div class="col-12">
+    <%if(flashSignUpError != ""){%>
+    <div class="alert alert-danger" role="alert"><%=flashSignUpError[0]%></div>
+  </div>
+  <% } %>
+  <div class="name col-12">
+    <label for="userName" class="py-2 px-0 mb-0">name:</label>
+    <input
+      type="text"
+      class="form-control"
+      name="userName"
+      id="userName"
+      title="only letters"
+      pattern="[A-Za-z\s]+"
+      required
+    />
+  </div>
+
+  <div class="email col-12">
+    <label for="user-email" class="py-2 px-0 mb-0">Email:</label>
+    <input
+      type="email"
+      class="form-control"
+      name="userEmail"
+      id="userEmail"
+      required
+    />
+  </div>
+
+  <div class="pass col-12">
+    <label for="user-pass" class="py-2 px-0 mb-0">Password:</label>
+    <input
+      type="password"
+      class="form-control"
+      name="userPass"
+      id="userPass"
+      required
+    />
+  </div>
+  <div class="buttons text-center">
+    <div class="signup pt-4">
+      <button class="btn btn-dark fw-bold btn-lg">Sign Up</button>
+    </div>
+    <h4>Or</h4>
+    <a href="/login">
+      <div class="btn btn-dark fw-bold btn-lg">Login</div>
+    </a>
+  </div>
+</form>

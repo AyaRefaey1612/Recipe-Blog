@@ -1,0 +1,26 @@
+<% if(flashInfo != ""){ %>
+  <div class="alert alert-success" role="alert"><%= flashInfo %></div>
+<% } %> 
+<% if(email.length>0){ %>
+  <div class="row text-center">
+    <% for(let i=0; i<email.length; i++){ %>
+     <div class="recipe col-lg-3 col-md-4 col-sm-12">
+      <a href="/recipes/<%=email[i]._id%>" class="category-link">
+       <div class="recipe-img">
+        <img src="/uploads/<%=email[i].image%>" alt="" />
+       </div>
+       <div><%= email[i].name %></div>
+      </a>
+     </div>
+    <% } %>
+    <% }else{%>
+      <h1>no recipes</h1>
+    <%} %>
+    <div class="logout col-12 my-4 text-end">
+     <a href="/logout">
+      <div class="btn btn-dark btn-lg">logout</div>
+     </a>
+    </div>
+  </div>
+
+

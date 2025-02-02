@@ -1,0 +1,81 @@
+:root{
+    --bs-font-sans-serif:"Rubik",sans-serif;
+}
+
+.container-xxl{max-width: 1200px;}
+
+body{
+   
+    background-image: url("../images/b21969d953bc5164adc04c9ee626493b.jpg");
+    background-color: #4f4f4f;
+}
+
+h1{
+    font-weight:600;
+}
+p{
+    color: #4f4f4f;
+}
+
+/* category */
+
+
+.category-link{
+    text-decoration: none;
+    color: #4f4f4f;
+    /* text-align: center; */
+    /* display: block; */
+    transition: 250ms all;
+}
+
+.category-link:hover{
+ transform: scale(1.1);
+}
+
+.category-img{
+ /* box-shadow: 0px 3px 6px rgb(0, 0, 0,16);
+ overflow: hidden; */ 
+ border-radius: 10px;
+}
+
+.category-img img{
+    object-fit: cover;
+    width: 130px;
+    height: 130px;
+}
+
+.recipe-img img{
+    object-fit: cover;
+    width: 200px;
+    height: 250px;
+}
+
+.publish{
+    width: 150px;
+    height: 150px;
+    border-radius: 30%;
+    object-fit:cover;
+}
+.publish.sm{
+    width: 120px;
+    height: 120px;
+}
+
+.oneImage img{
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+}
+
+
+.costom-center{
+text-align: center;
+}
+
+@media (min-width: 768px){
+ .oneImage img{
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+ }
+  }  

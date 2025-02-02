@@ -1,0 +1,13 @@
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 text-center">
+  <% if(result != ""){ %> <% result.forEach(element => {%>
+  <a href="/recipes/<%=element._id%>" class="category-link">
+    <div class="recipe-img shadow">
+      <img src="../uploads/<%=element.image%>" alt="<%=element.name%>" />
+    </div>
+    <div class="pt-1"><%=element.name %></div>
+  </a>
+
+  <% }); %> <% }else{%>
+  <h1>not found</h1>
+  <% } %>
+</div>

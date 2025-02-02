@@ -1,0 +1,137 @@
+<div class="px-2 mx-4 my-3 text-center">
+  <h1 class="display-5 fw-bold">Submit Your Recipe</h1>
+  <p>Share you amazing recipies</p>
+</div>
+<form
+  class="fw-bold px-5 row"
+  action="/submit-recipe"
+  enctype="multipart/form-data"
+  method="post"
+>
+  <!-- start flash messages -->
+  <%if(flashSignUp != ""){%>
+  <div class="alert alert-success" role="alert"><%=flashSignUp %></div>
+  <% } %> <% if(flashInfo != ""){ %>
+  <div class="alert alert-success" role="alert"><%=flashInfo%></div>
+  <% } %> <% if(flashError !=""){ %>
+  <div class="alert alert-danger" role="alert"><%=flashError[0].message%></div>
+  <% } %> <% if(flashSignUpError !=""){ %>
+  <div class="alert alert-danger" role="alert">
+    <%=flashSignUpError[0].message%>
+  </div>
+  <% } %>
+  <!-- end flash messages -->
+
+  <div class="email col-12">
+    <label for="email" class="px-0 py-2 mb-0">Email:</label>
+    <input type="email" name="email" id="email" class="form-control" required />
+  </div>
+
+  <div class="name col-12">
+    <label for="recipe-name" class="px-0 py-2 mb-0">Recipe Name:</label>
+    <input
+      type="text"
+      name="recipeName"
+      id="recipe-name"
+      class="form-control"
+      title="must type something"
+      required
+      title="this field is required"
+    />
+  </div>
+
+  <div class="Description col-12">
+    <label for="Description" class="px-0 py-2 mb-0">Description:</label>
+    <textarea
+      name="description"
+      id="description"
+      rows="4"
+      cols="30"
+      class="form-control"
+      title="must type something"
+      required
+    ></textarea>
+  </div>
+
+  <div class="ingredients col-12">
+    <label for="ingredients" class="px-0 py-2 mb-0" style="display: block"
+      >ingredients</label
+    >
+    <small class="px-0 m-0">Example: rice</small>
+    <div class="ingredientsList">
+      <div class="ingredientsDiv px-0 m-0">
+        <input
+          type="text"
+          name="ingredients"
+          id="ingredients"
+          class="form-control"
+          title="must type something"
+          required
+          title="this field is required"
+        />
+      </div>
+    </div>
+    <input
+      type="button"
+      class="btn btn-dark mt-2"
+      style="width: 150px"
+      id="button"
+      value="+ ingredients"
+      required
+    />
+  </div>
+
+  <div class="Category col-12">
+    <label for="Category" class="px-0 py-2 mb-0">Category</label>
+    <select
+      name="category"
+      id="category"
+      class="form-select form-control"
+      required
+    >
+      <% for(let i=0; i<countries.length; i++){ %>
+      <option value="" selected disabled hidden>Select Category</option>
+      <option value="<%=countries[i] %>"><%=countries[i] %></option>
+      <% } %>
+    </select>
+  </div>
+
+  <div class="col-12">
+    <label for="image" class="px-0 py-2 mb-0">Recipe Image</label>
+    <input
+      type="file"
+      class="form-control"
+      name="image"
+      accept="image/*"
+      required
+    />
+  </div>
+
+  <div class="col-12">
+    <input
+      type="submit"
+      name="submit"
+      id="submit"
+      class="btn btn-dark btn-lg col-12 mt-3"
+    />
+  </div> 
+  <div class="row cols-12 my-3 costom-center">
+    <a href="/profile" class="category-img category-link">
+     <img src="images/bc035aa6c0de14ed3a887864725b862a.jpg" alt="">
+     <p>Your Profile</p>
+    </a>
+  </div>
+
+</form>
+
+<script>
+  let button = document.getElementById("button");
+  let ingredientsList = document.querySelector(".ingredientsList");
+  let ingredientsDiv = document.querySelectorAll(".ingredientsDiv")[0];
+  button.onclick = function () {
+    let newIngredients = ingredientsDiv.cloneNode(true);
+    let input = newIngredients.getElementsByTagName("input")[0];
+    input.value = "";
+    ingredientsList.appendChild(newIngredients);
+  };
+</script>
