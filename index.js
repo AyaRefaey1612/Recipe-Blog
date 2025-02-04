@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
 const flashMessages = require("./server/middleWare/flashMessages");
 const connect = require("connect-mongo");
+const path = require("path");
 
 const app = express();
 
