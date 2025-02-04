@@ -40,6 +40,7 @@ app.use(fileUpload());
 app.use(flashMessages);
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/main");
+app.set("views", path.join(__dirname, "views"));
 
 // routes
 const routes = require("./server/routes/routes");
