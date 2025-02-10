@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const nationality = require("i18n-nationality");
 const fs = require("fs");
 const { now } = require("lodash");
+const path = require("path");
 // Register the desired locale (e.g., English)
 nationality.registerLocale(require("i18n-nationality/langs/en.json"));
 
@@ -268,20 +269,33 @@ const submitAddRecipe = async (req, res) => {
     let uploadedImage;
     let imagePath;
     let imageName;
-    if (!req.files || Object.keys(req.files).lenght === 0) {
+    if (!req.files || Object.keys(req.files).length === 0) {
       res.status(404).send("please upload the image");
     } else {
       (uploadedImage = req.files.image),
         (imageName = Date.now() + uploadedImage.name),
-        (imagePath =
-          require("path").resolve("./") + "/public/uploads/" + imageName);
+        (imagePath = path.join(
+          __dirname,
+          "..",
+          "..",
+          "public",
+          "uploads",
+          imageName
+        ));
+      // require("path").resolve("./") + "/public/uploads/" + imageName);
       uploadedImage.mv(imagePath, function (error) {
         if (error) return res.status(500).send(error);
       });
     }
     const nationality = await category.find({ name: req.body.category });
-    let categoryImagePath =
-      require("path").resolve("./") + "/public/images/" + imageName;
+    let categoryImagePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "public",
+      "images",
+      imageName
+    );
     fs.copyFileSync(imagePath, categoryImagePath);
     if (!nationality.length > 0) {
       await category.create({ name: req.body.category, image: imageName });
@@ -295,10 +309,10 @@ const submitAddRecipe = async (req, res) => {
       categoryName: req.body.category,
     });
     req.flash("flashInfo", "The recipe has been added");
-    res.redirect("/submit-recipe");
+    return res.redirect("/submit-recipe");
   } catch (error) {
     console.log(error);
-    res.status(500).send("something went wrong");
+    return res.status(500).send("something went wrong");
   }
 };
 
