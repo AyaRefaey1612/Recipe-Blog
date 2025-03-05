@@ -269,37 +269,50 @@ const submitAddRecipe = async (req, res) => {
     let uploadedImage;
     let imagePath;
     let imageName;
+
+    // 1. Check if an image was uploaded
     if (!req.files || Object.keys(req.files).length === 0) {
-      res.status(404).send("please upload the image");
-    } else {
-      (uploadedImage = req.files.image),
-        (imageName = Date.now() + uploadedImage.name),
-        (imagePath = path.join(
-          __dirname,
-          "..",
-          "..",
-          "public",
-          "uploads",
-          imageName
-        ));
-      // require("path").resolve("./") + "/public/uploads/" + imageName);
-      uploadedImage.mv(imagePath, function (error) {
-        if (error) return res.status(500).send(error);
-      });
+      return res.status(404).send("Please upload the image");
     }
+
+    // 2. Process and save the image
+    uploadedImage = req.files.image;
+    imageName = Date.now() + uploadedImage.name;
+    imagePath = path.join(__dirname, "..", "..", "public", "uploads", imageName);
+
+    // Move the uploaded image (await ensures it completes)
+    await uploadedImage.mv(imagePath);
+
+    // 3. Copy image to category images
+    let categoryImagePath = path.join(__dirname, "..", "..", "public", "images", imageName);
+    await fs.promises.copyFile(imagePath, categoryImagePath);
+
+    // 4. Find or create the category
     const nationality = await category.find({ name: req.body.category });
-    let categoryImagePath = path.join(
-      __dirname,
-      "..",
-      "..",
-      "public",
-      "images",
-      imageName
-    );
-    fs.copyFileSync(imagePath, categoryImagePath);
     if (!nationality.length > 0) {
       await category.create({ name: req.body.category, image: imageName });
     }
+
+    // 5. Create the recipe
+    await recipe.create({
+      name: req.body.recipeName,
+      email: req.body.email,
+      image: imageName,
+      description: req.body.description,
+      ingredients: req.body.ingredients,
+      categoryName: req.body.category,
+    });
+
+    // 6. Set flash message and redirect
+    req.flash("flashInfo", "The recipe has been added");
+    return res.redirect("/submit-recipe");
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Something went wrong");
+  }
+};
+
     const newRecipe = await recipe.create({
       name: req.body.recipeName,
       email: req.body.email,
