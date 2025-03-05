@@ -304,7 +304,6 @@ const submitAddRecipe = async (req, res) => {
     });
 
     // 6. Set flash message and redirect
-    req.flash("flashInfo", "The recipe has been added");
     return res.redirect("/submit-recipe");
 
   } catch (error) {
