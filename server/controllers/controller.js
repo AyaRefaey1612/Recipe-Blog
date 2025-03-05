@@ -316,22 +316,6 @@ const submitAddRecipe = async (req, res) => {
   }
 };
 
-    const newRecipe = await recipe.create({
-      name: req.body.recipeName,
-      email: req.body.email,
-      image: imageName,
-      description: req.body.description,
-      ingredients: req.body.ingredients,
-      categoryName: req.body.category,
-    });
-    req.flash("flashInfo", "The recipe has been added");
-    return res.redirect("/submit-recipe");
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("something went wrong");
-  }
-};
-
 //get
 //profile
 const profile = async (req, res) => {
