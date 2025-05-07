@@ -174,7 +174,7 @@ const getARecipe = async (req, res) => {
     const oneRecipe = await recipe.find({ _id: req.params.id });
     const user = req.session.user;
     const recipeEmail = oneRecipe[0].email;
-    res.status(200).render("Arecipe", {
+    res.status(200).render("ARecipe", {
       oneRecipe,
       user,
       recipeEmail,
