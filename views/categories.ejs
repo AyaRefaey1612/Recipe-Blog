@@ -11,10 +11,9 @@
     <a href="/categories/<%=category._id%>" class="category-link text-center">
         <div class="category-img shadow">
             <%if(category.image !=""){  %>
-             <img src="../images/<%=category.image%>" alt="<%=category.name%> category" loading="lazy">
-            <% }else{ %>
-             <img src="../uploads/<%=category.image%>" alt="<%=category.name%> category" loading="lazy">
+             <img src="<%=category.image%>" alt="<%=category.name%> category" loading="lazy">
             <% } %>
+
         </div>
         <div class="pt-1"><%=category.name %></div>
     </a>

@@ -10,7 +10,7 @@
      <% recipes.forEach((recipe)=>{%>
         <a href="/recipes/<%=recipe._id%>" class="category-link text-center">
           <div class="recipe-img shadow">
-            <img src="../uploads/<%=recipe.image%>" alt="<%= recipe.name %>recipe" loading="lazy" class="px-md-3">
+            <img src="<%=recipe.image%>" alt="<%= recipe.name %>recipe" loading="lazy" class="px-md-3">
           </div>
           <div class="pt-1"><%= recipe.name %></div>
         </a>

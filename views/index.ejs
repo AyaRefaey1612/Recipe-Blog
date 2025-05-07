@@ -34,15 +34,15 @@
 </div>
 
 <!-- categories start -->
-<div class="row row-col-2 gap-2 py-4">
+<div class="row  gap-2 py-4">
   <% if(categories != ''){ %> <% categories.forEach(function(category,index){%>
   <a
     href="/categories/<%= category._id %>"
     class="col category-link text-center"
   >
-    <div class="category-img shadow">
+    <div class="category-img shadow col">
       <img
-        src="../images/<%=category.image %>"
+        src="<%=category.image %>"
         alt="<%= category.name %>"
         loading="lazy"
       />
@@ -52,12 +52,8 @@
   <%}) %> <% } %>
   <a href="/categories" class="col category-link text-center">
     <div class="category-img shadow">
-      <img
-        src="../images/873cc623d0146dedbfc91354f3b0af61.jpg"
-        alt="thai food"
-        loading="lazy"
-      />
-    </div>
+    <img src="../images/c9807b94064757148d96222b663faa36.jpg" alt="">
+  </div>
     <div class="pt-1">view all</div>
   </a>
 </div>
@@ -75,7 +71,7 @@
     <a href="/recipes/<%=recipe._id%>" class="col category-link text-center">
       <div class="recipe-img shadow">
         <img
-          src="../uploads/<%=recipe.image%>"
+          src="<%=recipe.image%>"
           alt="<%=recipe.name%> recipe"
           loading="lazy"
         />
@@ -95,7 +91,7 @@
     <a href="/recipes/<%=recipe._id%>" class="category-link">
       <div class="recipe-img shadow">
         <img
-          src="../uploads/<%= recipe.image %>"
+          src="<%= recipe.image %>"
           alt="<%=recipe.name%>"
           loading="lazy"
         />
@@ -115,7 +111,7 @@
     <a href="/recipes/<%=recipe._id%>" class="category-link">
       <div class="recipe-img shadow">
         <img
-          src="../uploads/<%=recipe.image%>"
+          src="<%=recipe.image%>"
           alt="<%recipe.name%>"
           loading="lazy"
         />
@@ -135,7 +131,7 @@
     <a href="/recipes/<%=recipe._id%>" class="category-link">
       <div class="recipe-img shadow">
         <img
-          src="../uploads/<%=recipe.image%>"
+          src="<%=recipe.image%>"
           alt="<%=recipe.name%>"
           loading="lazy"
         />

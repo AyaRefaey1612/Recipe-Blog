@@ -2,7 +2,7 @@
   <% if(result != ""){ %> <% result.forEach(element => {%>
   <a href="/recipes/<%=element._id%>" class="category-link">
     <div class="recipe-img shadow">
-      <img src="../uploads/<%=element.image%>" alt="<%=element.name%>" />
+      <img src="<%=element.image%>" alt="<%=element.name%>" />
     </div>
     <div class="pt-1"><%=element.name %></div>
   </a>

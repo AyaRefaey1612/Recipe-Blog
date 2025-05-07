@@ -4,8 +4,7 @@ const recipe = require("../models/recipe");
 const user = require("../models/user.js");
 const bcrypt = require("bcrypt");
 const nationality = require("i18n-nationality");
-const fs = require("fs");
-const { now } = require("lodash");
+const cloudinary = require("../utils/cloudinary");
 const path = require("path");
 // Register the desired locale (e.g., English)
 nationality.registerLocale(require("i18n-nationality/langs/en.json"));
@@ -266,53 +265,37 @@ const submitRecipe = async (req, res) => {
 // submit-recipe
 const submitAddRecipe = async (req, res) => {
   try {
-    let uploadedImage;
-    let imagePath;
-    let imageName;
-    if (!req.files || Object.keys(req.files).length === 0) {
-      res.status(404).send("please upload the image");
+    if (!req.file || Object.keys(req.file).length === 0) {
+      return res.status(404).send("please upload the image");
     } else {
-      (uploadedImage = req.files.image),
-        (imageName = Date.now() + uploadedImage.name),
-        (imagePath = path.join(
-          __dirname,
-          "..",
-          "..",
-          "public",
-          "uploads",
-          imageName
-        ));
-      // require("path").resolve("./") + "/public/uploads/" + imageName);
-      uploadedImage.mv(imagePath, function (error) {
-        if (error) return res.status(500).send(error);
+      const imageUrl = req.file.path;
+      const publicUrl = req.file.filename;
+
+      const categoryRecipe = await category.find({ name: req.body.category });
+      if (!categoryRecipe.length) {
+        const newCategory = await category.create({
+          name: req.body.category,
+          image: imageUrl,
+        });
+      }
+
+      await recipe.create({
+        name: req.body.recipeName,
+        email: req.body.email,
+        image: imageUrl,
+        publicId: publicUrl,
+        description: req.body.description,
+        ingredients: req.body.ingredients,
+        categoryName: req.body.category,
       });
+
+      // 6. Set flash message and redirect
+      req.flash("flashInfo", "The recipe has been added");
+      return res.redirect("/submit-recipe");
     }
-    const nationality = await category.find({ name: req.body.category });
-    let categoryImagePath = path.join(
-      __dirname,
-      "..",
-      "..",
-      "public",
-      "images",
-      imageName
-    );
-    fs.copyFileSync(imagePath, categoryImagePath);
-    if (!nationality.length > 0) {
-      await category.create({ name: req.body.category, image: imageName });
-    }
-    const newRecipe = await recipe.create({
-      name: req.body.recipeName,
-      email: req.body.email,
-      image: imageName,
-      description: req.body.description,
-      ingredients: req.body.ingredients,
-      categoryName: req.body.category,
-    });
-    req.flash("flashInfo", "The recipe has been added");
-    return res.redirect("/submit-recipe");
   } catch (error) {
     console.log(error);
-    return res.status(500).send("something went wrong");
+    return res.status(500).send("Something went wrong");
   }
 };
 
@@ -333,9 +316,11 @@ const profile = async (req, res) => {
 //recipe
 const deleteRecipe = async (req, res) => {
   try {
-    const recipes = await recipe.deleteOne({ _id: req.params.id });
+    const recipes = await recipe.findOneAndDelete({ _id: req.params.id });
+    const publicId = recipes.publicId;
     const userEmail = req.session.user.email;
     const email = await recipe.find({ email: userEmail });
+    cloudinary.remove(publicId);
     req.flash("flashInfo", "done");
     res.redirect("/profile");
   } catch (error) {
@@ -359,36 +344,23 @@ const editRecipe = async (req, res) => {
 //put
 // edit recipe
 const saveChanges = async (req, res) => {
-  let changedUploadedImage;
-  let changedUploadedImageName;
-  let changedUploadedpath;
   try {
-    if (req.files) {
-      if (req.files.changedImage) {
-        changedUploadedImage = req.files.changedImage;
-        changedUploadedImageName = Date.now() + changedUploadedImage.name;
-        changedUploadedpath =
-          require("path").resolve("./") +
-          "/public/uploads/" +
-          changedUploadedImageName;
-
-        changedUploadedImage.mv(changedUploadedpath, function (error) {
-          if (error) return res.status(500).send(error);
-        });
-      } else {
-        console.log("no files");
-      }
-    }
     const theRecipe = await recipe.find({ _id: req.params.id });
+
+    if (req.file) {
+      const publicId = theRecipe[0].publicId;
+      cloudinary.remove(publicId);
+    }
     if (theRecipe.length > 0) {
       const recipee = await recipe.findOneAndUpdate(
         { _id: req.params.id },
         {
           name: req.body.recipeName || theRecipe[0].name,
-          image: changedUploadedImageName || theRecipe[0].image,
+          image: req.file ? req.file.path : theRecipe[0].image,
           description: req.body.description || theRecipe[0].description,
           ingredients: req.body.ingredients || theRecipe[0].ingredients,
           categoryName: req.body.category || theRecipe[0].categoryName,
+          publicId: req.file ? req.file.filename : theRecipe[0].publicId,
         }
       );
       res.redirect("/profile");

@@ -2,13 +2,13 @@
   <div class="row">
     <div class="pic col-11 col-md-3 m-1 p-2 text-center">
       <img
-        src="/uploads/<%=aRecipe[0].image%>"
+        src="<%=aRecipe[0].image%>"
         alt="recipe-img"
         class="img-fluid sticky-top"
       />
       <div class="changePic sticky-top">
        <div class="btn btn-dark m-1">Change The Picture</div>  
-       <input type="file" class="btn btn-dark img-fluid form-control" accept="image/*" name="changedImage"/>
+       <input type="file" class="btn btn-dark img-fluid form-control" accept="image/*" name="image"/>
     </div>
     </div>
 
@@ -29,7 +29,10 @@
           <ul class="list-group list-group-flush ingredients-item list">
             <% for(let i=0; i<aRecipe[0].ingredients.length;i++){ %>
                 <li class="list-group-item px-0 oneItem">
-                    <input type="text" name="ingredients" class="form-control" id="input" value="<%=aRecipe[0].ingredients[i]%>"/>
+                    <input type="text" name="ingredients" class="form-control" id="input" value="<%=aRecipe[0].ingredients[i]%>" required/>
+                    <div class="delete text-end">
+                      <input type="button" class="btn btn-dark btn-sm deleteField" name="deleteField" id="deleteField" value="-">
+                    </div>
                 </li>
             <% } %> 
             </ul>
@@ -56,13 +59,35 @@
   let list=document.getElementsByClassName("list")[0];
   let oneItem=document.getElementsByClassName("oneItem")[0];
 
+  function deleteElement (){
+    let delDiv=document.querySelectorAll(".deleteField");
+  delDiv.forEach(del => {
+    console.log(delDiv)
+    del.onclick=function(){
+      console.log(del.parentElement.parentElement)
+      del.parentElement.parentElement.remove()
+
+    }
+  });
+}
+
+
   let button=document.getElementById("button")
   button.onclick=function(){
   let newItem=oneItem.cloneNode(true);
   let input=newItem.getElementsByTagName("input")[0];
   input.value="";
-  list.appendChild(newItem)
+  list.appendChild(newItem);
+  
+  deleteElement()
 
   }
+
+ 
+  deleteElement()
+  
+
+
+  
   
 </script>

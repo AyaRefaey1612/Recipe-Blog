@@ -15,11 +15,9 @@ router.get("/recipes/:id", controller.getARecipe);
 router.post("/search", controller.search);
 router.get("/show-random", controller.randomRecipe);
 router.get("/submit-recipe", isAuthenticated, controller.submitRecipe);
-router.post("/submit-recipe", isAuthenticated, controller.submitAddRecipe);
 router.get("/profile", isAuthenticated, controller.profile);
 router.delete("/delete/:id", isAuthenticated, controller.deleteRecipe);
 router.get("/edit/:id", isAuthenticated, controller.editRecipe);
-router.put("/savechanges/:id", isAuthenticated, controller.saveChanges);
 
 router.get("/logout", controller.logout);
 

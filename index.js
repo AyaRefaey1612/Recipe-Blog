@@ -3,13 +3,14 @@ const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const connnectTOMongo = require("./server/config/connectdb");
 const session = require("express-session");
-const fileUpload = require("express-fileupload");
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
 const flashMessages = require("./server/middleWare/flashMessages");
 const connect = require("connect-mongo");
 const path = require("path");
+const routes = require("./server/routes/routes");
+const uploadRouter = require("./server/routes/uploadRoute");
 
 const app = express();
 
@@ -37,14 +38,13 @@ app.use(
 );
 
 app.use(flash());
-app.use(fileUpload());
 app.use(flashMessages);
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/main");
 app.set("views", path.join(__dirname, "views"));
 
 // routes
-const routes = require("./server/routes/routes");
+app.use("/", uploadRouter);
 app.use("/", routes);
 
 connnectTOMongo();

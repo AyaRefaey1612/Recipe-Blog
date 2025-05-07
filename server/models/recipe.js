@@ -9,6 +9,9 @@ const recipeSchema = new schema({
     type: String,
     required: "this field is required",
   },
+  publicId: {
+    type: String,
+  },
   description: {
     type: String,
     required: "this field is required",

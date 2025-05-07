@@ -4,7 +4,7 @@
 </div>
 <form
   class="fw-bold px-5 row"
-  action="/submit-recipe"
+  action="/upload"
   enctype="multipart/form-data"
   method="post"
 >
@@ -59,7 +59,7 @@
     >
     <small class="px-0 m-0">Example: rice</small>
     <div class="ingredientsList">
-      <div class="ingredientsDiv px-0 m-0">
+      <div class="row row-col-12 ingredientsDiv px-0 m-0 py-1">
         <input
           type="text"
           name="ingredients"
@@ -69,6 +69,7 @@
           required
           title="this field is required"
         />
+        
       </div>
     </div>
     <input
@@ -101,7 +102,7 @@
     <input
       type="file"
       class="form-control"
-      name="image"
+      name="file"
       accept="image/*"
       required
     />
@@ -125,6 +126,7 @@
 </form>
 
 <script>
+  let no=2
   let button = document.getElementById("button");
   let ingredientsList = document.querySelector(".ingredientsList");
   let ingredientsDiv = document.querySelectorAll(".ingredientsDiv")[0];
@@ -132,6 +134,30 @@
     let newIngredients = ingredientsDiv.cloneNode(true);
     let input = newIngredients.getElementsByTagName("input")[0];
     input.value = "";
+    // ingredientsDiv.className="row row-col-12 ingredientsDiv px-0 m-0 py-0"
+
+    // creat "-" element
+    let delDiv=document.createElement("div");
+    delDiv.className="text-end"
+
+    let delbutton=document.createElement("button");
+    delbutton.className="btn btn-sm btn-dark"
+    delbutton.innerHTML="-"
+
+    delDiv.appendChild(delbutton)
+
+
+    newIngredients.appendChild(delDiv) 
     ingredientsList.appendChild(newIngredients);
+    
+
+    delDiv.onclick=function(){
+      console.log(delDiv.parentElement)
+      delDiv.parentElement.remove()
+    }
+
+  
   };
+
+  
 </script>
